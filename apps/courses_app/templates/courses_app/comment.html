@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Comment</title>
+    <style>
+        body {
+            padding-left: 20px;
+        }
+
+        ul {
+            text-align: left;
+            color: red;
+            font-size: 12px;
+        }
+
+        .courses_table {
+            width: 1000px;
+        }
+
+        #comment {
+            vertical-align: top;
+        }
+
+        .back {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Add a comment to: "{{name}}"</h2>
+    <form action="/courses/{{id}}/comment" method="post">
+        {% csrf_token %}
+        <div class="comment">
+            <label for="comment">Comment:</label>
+            <textarea name="comment" id="comment"></textarea>
+        </div>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <p><input type="submit" value="Add" class="btn btn-success" /></p>
+    </form>
+    <div>
+        <h1>Comments</h1>
+        <div class="courses_table">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Comment content</th>
+                    </tr>
+                </thead>
+                {% for v in all_comment %}
+                <tbody>
+                    <tr>
+                        <th scope="row">{{ v.id }}</th>
+                        <td>{{ v.content }}</td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <p class="back"><a href="/">Go Back</a></p>
+
+</body>
+
+</html>

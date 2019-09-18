@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Delete a course</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body {
+            padding-left: 20px;
+        }
+
+        h1 {
+            color: red;
+        }
+        form{
+            display: inline;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Are you sure you want to delete the following course?</h1>
+    <h4>Name: {{name}}</h4>
+    <h4>Description: {{description}}</h4>
+    <a class="btn btn-secondary" href="/" role="button">No</a>
+    <form action="/courses/destory" method="post">
+        {% csrf_token %}
+        <button class="btn btn-danger" type="submit" name="id_num" value="{{id}}">Yes! I want to delete this</button>
+    </form>
+</body>
+
+</html>

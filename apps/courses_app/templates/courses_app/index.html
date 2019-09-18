@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Add a student to all bootcamp courses</title>
+    <style>
+        body {
+            padding-left: 20px;
+        }
+
+        #desc {
+            vertical-align: top;
+        }
+
+        .desciption {
+            margin: 10px 0;
+        }
+
+        .courses_table {
+            width: 1000px;
+        }
+
+        #name {
+            margin-left: 40px;
+        }
+        ul{
+            text-align: left;
+            color:red;
+            font-size: 12px;
+        }
+        form{
+            display: inline;
+        }
+        a{
+            display: inline;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>Add a new course</h1>
+        <form action="/" method="post">
+            {% csrf_token %}
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name">
+            </div>
+            <div class="desciption">
+                <label for="desc">Description:</label>
+                <textarea name="description" class="desc" id="desc"></textarea>
+            </div>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <p><input type="submit" value="Add" class="btn btn-success" /></p>
+        </form>
+    </div>
+    <div>
+        <h1>Courses</h1>
+        <div class="courses_table">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Course Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Date Added</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                {% for v in all_courses %}
+                <tbody>
+                    <tr>
+                        <th scope="row">{{ v.id }}</th>
+                        <td>{{ v.name }}</td>
+                        <td>{{ v.desc.content }}</td>
+                        <td>{{ v.created_at }}</td>
+                        <td>
+                            <form action="/courses/destory/{{v.id}}" method="post">
+                                {% csrf_token %}
+                                <button class="btn btn-danger" type="submit" name="id_num"
+                                    value="{{v.id}}">Remove</button>
+                            </form>
+                            <a class="btn btn-success" href="/courses/{{v.id}}/comment" role="button">Comment</a>
+                        </td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+</body>
+
+</html>
